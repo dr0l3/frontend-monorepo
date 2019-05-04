@@ -208,3 +208,5 @@ project/plugins/project/
 *.class
 
 # End of https://www.gitignore.io/api/sbt,node,linux,scala,intellij+all
+
+*/build/
