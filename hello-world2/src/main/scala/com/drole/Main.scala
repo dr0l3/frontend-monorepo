@@ -16,7 +16,6 @@ import slinky.core.facade.ReactElement
 import slinky.web.html._
 import com.apollographql.scalajs._
 import com.apollographql.scalajs.react.{ApolloProvider, Mutation, Query}
-import com.drole.GetUserQuery.Data.User
 import scala.scalajs.js.{Array => JArray}
 
 @JSImport("resources/index.css", JSImport.Default)
@@ -61,9 +60,9 @@ object Main {
     val hello2 = "/hello2"
 
     val component = div(
-      Query[GetUserQuery.Data](
+      Query[GetUsersQuery.Data](
         gql(
-          GetUserQuery.operationString
+          GetUsersQuery.operationString
         )) { queryStatus =>
         if (queryStatus.loading) "Loading..."
         else if (queryStatus.error.isDefined) s"Error! ${queryStatus.error}"
