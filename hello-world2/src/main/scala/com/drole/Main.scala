@@ -16,6 +16,8 @@ import slinky.core.facade.ReactElement
 import slinky.web.html._
 import com.apollographql.scalajs._
 import com.apollographql.scalajs.react.{ApolloProvider, Mutation, Query}
+import com.drole.GetUserQuery.Data.User
+import scala.scalajs.js.{Array => JArray}
 
 @JSImport("resources/index.css", JSImport.Default)
 @js.native
@@ -43,7 +45,6 @@ object Main {
 
     val reactComponent = div(BrowserRouter(withRouter(Demos)))
 
-
     ReactDOM.render(ApolloProvider(client)(reactComponent), container)
   }
 }
@@ -59,31 +60,32 @@ object Main {
     val hello1 = "/hello1"
     val hello2 = "/hello2"
 
-    case class User(name: String, age: Int, id: String)
-    case class Users(users: Seq[User])
-
     val component = div(
-      Query[Users](
+      Query[GetUserQuery.Data](
         gql(
-          """query getUsers{
-            |    users {
-            |        age
-            |        name
-            |        id
-            |    }
-            |}""".stripMargin
+          GetUserQuery.operationString
         )) { queryStatus =>
         if (queryStatus.loading) "Loading..."
         else if (queryStatus.error.isDefined) s"Error! ${queryStatus.error}"
         else {
+          val users = queryStatus.data match {
+            case Some(value) =>
+              value.users
+                .map(_.get)
+                .sortBy(_.age)
+                .reverse
+                .map { user =>
+                  div(key := user.id)(
+                    h1()(user.name),
+                    p()(user.age),
+                    p()(user.id)
+                  )
+                }
+            case None =>
+              JArray(div()("No users"))
+          }
           div(
-            queryStatus.data.get.users.map { user =>
-              div(key := UUID.randomUUID().toString)(
-                h1()(user.name),
-                p()(user.age),
-                p()(user.id)
-              )
-            }
+            users: _*
           )
         }
       })
