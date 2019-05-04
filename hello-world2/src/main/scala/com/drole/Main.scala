@@ -60,10 +60,7 @@ object Main {
     val hello2 = "/hello2"
 
     val component = div(
-      Query[GetUsersQuery.Data](
-        gql(
-          GetUsersQuery.operationString
-        )) { queryStatus =>
+      Query[GetUsersQuery.Data](GetUsersQuery.operation) { queryStatus =>
         if (queryStatus.loading) "Loading..."
         else if (queryStatus.error.isDefined) s"Error! ${queryStatus.error}"
         else {
