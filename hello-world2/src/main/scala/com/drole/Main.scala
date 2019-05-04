@@ -96,7 +96,7 @@ object Main {
         li(Link(to = hello2)("Hello2"))
       ),
       Route(exact = true, path = home, render = _ => h1("home!")),
-      Route(exact = true, path = hello1, render = _ => h1("Hello1!")),
+      Route(exact = true, path = hello1, render = _ => HelloMessage("RUNNNNEE")),
       Route(exact = true, path = hello2, render = _ => component)
     )
   }
