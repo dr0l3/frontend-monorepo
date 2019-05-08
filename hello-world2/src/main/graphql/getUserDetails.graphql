@@ -1,0 +1,10 @@
+query getUserDetails($id:UUID!) {
+    user(where: {id:$id}) {
+        age
+        name
+        wishlists {
+            id
+            name
+        }
+    }
+}

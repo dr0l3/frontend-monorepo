@@ -1,0 +1,10 @@
+mutation addItemToWishList($title: String!, $wishlistId: UUID!, $currency: String, $description: String, $link: String, $price: Float) {
+    createWishlistItem(data:{wishlistId: {connect: {id: $wishlistId}}, name: $title, currency:$currency, description:$description, link: $link, price:$price}) {
+        id
+        currency
+        description
+        link
+        name
+        price
+    }
+}

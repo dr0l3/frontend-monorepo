@@ -1,0 +1,6 @@
+mutation createWishlistForUser($name: String!, $userId: UUID!) {
+    createWishlist(data: {name:$name, userId: {connect: {id: $userId}}}) {
+        id
+        name
+    }
+}
